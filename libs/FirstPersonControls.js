@@ -9,7 +9,6 @@ const _spherical = new Spherical();
 const _target = new Vector3();
 
 class FirstPersonControls {
-
 	constructor( object, domElement ) {
 
 		this.object = object;

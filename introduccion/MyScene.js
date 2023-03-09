@@ -24,11 +24,11 @@ class MyScene extends THREE.Scene {
     this.renderer = this.createRenderer(myCanvas);
     
     // Se añade a la gui los controles para manipular los elementos de esta clase
-    this.gui = this.createGUI ();
+    this.gui = this.createGUI();
     
     this.initStats();
     
-    // Construimos los distinos elementos que tendremos en la escena
+    // Construimos los distintos elementos que tendremos en la escena
     
     // Todo elemento que se desee sea tenido en cuenta en el renderizado de la escena debe pertenecer a esta.
     //  Bien como hijo de la escena (this en esta clase) o como hijo de un elemento que ya esté en la escena.
@@ -54,7 +54,6 @@ class MyScene extends THREE.Scene {
   }
   
   initStats() {
-  
     var stats = new Stats();
     
     stats.setMode(0); // 0: fps, 1: ms
@@ -113,7 +112,7 @@ class MyScene extends THREE.Scene {
     this.add (ground);
   }
   
-  createGUI () {
+  createGUI() {
     // Se crea la interfaz gráfica de usuario
     var gui = new GUI();
     
@@ -130,14 +129,14 @@ class MyScene extends THREE.Scene {
     var folder = gui.addFolder ('Luz y Ejes');
     
     // Se le añade un control para la intensidad de la luz
-    folder.add (this.guiControls, 'lightIntensity', 0, 1, 0.1)
-      .name('Intensidad de la Luz : ')
-      .onChange ( (value) => this.setLightIntensity (value) );
+    folder.add(this.guiControls, 'lightIntensity', 0, 1, 0.1)
+      .name('Intensidad de la Luz: ')
+      .onChange((value) => this.setLightIntensity(value));
     
     // Y otro para mostrar u ocultar los ejes
-    folder.add (this.guiControls, 'axisOnOff')
-      .name ('Mostrar ejes : ')
-      .onChange ( (value) => this.setAxisVisible (value) );
+    folder.add(this.guiControls, 'axisOnOff')
+      .name('Mostrar ejes : ')
+      .onChange((value) => this.setAxisVisible(value));
     
     return gui;
   }
@@ -149,7 +148,7 @@ class MyScene extends THREE.Scene {
     //    se hace así puesto que no va a ser accedida desde otros métodos
     var ambientLight = new THREE.AmbientLight(0xccddee, 0.35);
     // La añadimos a la escena
-    this.add (ambientLight);
+    this.add(ambientLight);
     
     // Se crea una luz focal que va a ser la luz principal de la escena
     // La luz focal, además tiene una posición, y un punto de mira
@@ -210,7 +209,6 @@ class MyScene extends THREE.Scene {
   }
 
   update () {
-    
     if (this.stats) this.stats.update();
     
     // Se actualizan los elementos de la escena para cada frame
@@ -231,9 +229,8 @@ class MyScene extends THREE.Scene {
   }
 }
 
-/// La función   main
+/// La función main
 $(function () {
-  
   // Se instancia la escena pasándole el  div  que se ha creado en el html para visualizar
   var scene = new MyScene("#WebGL-output");
 
