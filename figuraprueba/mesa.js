@@ -1,10 +1,15 @@
 import * as THREE from '../libs/three.module.js'
+import * as CSG from '../libs/CSG-v2.js'
+import { jarron } from '../jarron/jarron.js'
 
 class mesa extends THREE.Object3D {
-    cilindro;
-    cilindro2;
-    cilindro3;
-    cilindro4;
+    pata;
+    pata2;
+    pata3;
+    pata4;
+    superficie;
+    jarronMesa;
+
     constructor(gui, titleGui) {
         super();
 
@@ -38,44 +43,62 @@ class mesa extends THREE.Object3D {
         // Como material se crea uno a partir de un color
         var cilindroMaterial4 = new THREE.MeshPhongMaterial({color: 0x008000});*/
 
-        // Ya podemos construir el Mesh
-        this.cilindro = this.createCilindro();
-        this.cilindro2 = this.createCilindro();
-        this.cilindro3 = this.createCilindro();
-        this.cilindro4 = this.createCilindro();
+        // Construcción del Mesh
+        this.pata = this.createCilindro();
+        this.pata2 = this.createCilindro();
+        this.pata3 = this.createCilindro();
+        this.pata4 = this.createCilindro();
+        this.superficie = this.createCuadrado();
+        this.jarronMesa = new jarron(gui, titleGui);
+
         // Y añadirlo como hijo del Object3D (el this)
-        this.add(this.cilindro);
-        this.add(this.cilindro2);
-        this.add(this.cilindro3);
-        this.add(this.cilindro4);
+        this.add(this.pata);
+        this.add(this.pata2);
+        this.add(this.pata3);
+        this.add(this.pata4);
+        this.add(this.superficie);
+        this.add(this.jarronMesa);
 
         // Las geometrías se crean centradas en el origen.
         // Como queremos que el sistema de referencia esté en la base,
-        // subimos el Mesh del cilindro a la mitad de su altura, y colocamos cada pata en su sitio.
+        // subimos el Mesh del pata a la mitad de su altura, y colocamos cada pata en su sitio.
         // Cilindro 1 -> Pata delantera derecha.
         // Cilindro 2 -> Pata delantera izquierda.
         // Cilindro 3 -> Pata trasera derecha.
         // Cilindro 4 -> Pata trasera izquierda.
 
-        this.cilindro.position.y = 2;
-        this.cilindro2.position.y = 2;
-        this.cilindro3.position.y = 2;
-        this.cilindro4.position.y = 2;
+        this.pata.position.y = 2;
+        this.pata2.position.y = 2;
+        this.pata3.position.y = 2;
+        this.pata4.position.y = 2;
+        this.superficie.position.y = 4; // Encima de los cilindros.
+        this.jarronMesa.position.y = 4.2;
 
-        this.cilindro.position.x = 2;
-        this.cilindro2.position.x = 2;
-        this.cilindro3.position.x = -2;
-        this.cilindro4.position.x = -2;
+        this.pata.position.x = 2;
+        this.pata2.position.x = 2;
+        this.pata3.position.x = -2;
+        this.pata4.position.x = -2;
+        this.superficie.position.x = 0;
+        this.jarronMesa.position.x = -1.5;
 
-        this.cilindro.position.z = -2;
-        this.cilindro2.position.z = 2;
-        this.cilindro3.position.z = -2;
-        this.cilindro4.position.z = 2;
+        this.pata.position.z = -2;
+        this.pata2.position.z = 2;
+        this.pata3.position.z = -2;
+        this.pata4.position.z = 2;
+        this.superficie.position.z = 0;
+        this.jarronMesa.position.z = -1;
+    }
+
+    createCuadrado() {
+        var SuperficieGeom = new THREE.BoxGeometry(6.5, 0.5, 6.5, 10, 10, 10);
+        var superficieMaterial = new THREE.MeshPhongMaterial({color: 0xcd853f});
+
+        return new THREE.Mesh(SuperficieGeom, superficieMaterial);
     }
 
     createCilindro() {
-        var cilindroGeom = new THREE.CylinderGeometry(1, 1, 4);
-        var cilindroMaterial = new THREE.MeshPhongMaterial({color: 0x008000});
+        var cilindroGeom = new THREE.CylinderGeometry(0.3, 0.3, 4);
+        var cilindroMaterial = new THREE.MeshPhongMaterial({color: 0x654321});
 
         return new THREE.Mesh(cilindroGeom, cilindroMaterial);
     }
@@ -180,9 +203,17 @@ class mesa extends THREE.Object3D {
         this.rotation.set(this.guiControls.rotX,this.guiControls.rotY,this.guiControls.rotZ);
         this.scale.set(this.guiControls.sizeX,this.guiControls.sizeY,this.guiControls.sizeZ);
 
-        this.cilindro2.position.set(this.guiControls.c2posX, this.guiControls.c2posY, this.guiControls.c2posZ);
-        this.cilindro2.rotation.set(this.guiControls.c2rotX, this.guiControls.c2rotY, this.guiControls.c2rotZ);
-        this.cilindro2.scale.set(this.guiControls.c2sizeX, this.guiControls.c2sizeY, this.guiControls.c2sizeZ);
+        this.pata2.position.set(this.guiControls.c2posX + 2,
+                                    this.guiControls.c2posY + 2,
+                                    this.guiControls.c2posZ + 2); // +2 porque es la posición inicial.
+
+        this.pata2.rotation.set(this.guiControls.c2rotX,
+                                    this.guiControls.c2rotY,
+                                    this.guiControls.c2rotZ);
+
+        this.pata2.scale.set(this.guiControls.c2sizeX,
+                                 this.guiControls.c2sizeY,
+                                 this.guiControls.c2sizeZ);
     }
 }
 
