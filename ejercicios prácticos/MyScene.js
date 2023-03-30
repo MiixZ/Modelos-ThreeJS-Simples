@@ -6,9 +6,7 @@ import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
 import { Stats } from '../libs/stats.module.js'
 
-// Clases de mi proyecto
-
-import { mesa } from './mesa.js'
+// Clases de mi proyecto (imports de las figuras)
 
 
 /// La clase fachada del modelo
@@ -41,14 +39,14 @@ class MyScene extends THREE.Scene {
         // Un suelo
         this.createGround ();
 
-        // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas
+        // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas.
         this.axis = new THREE.AxesHelper (5);
         this.add (this.axis);
 
         // Por último creamos el modelo.
         // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a
         // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
-        this.model = new mesa(this.gui, "Controles de la Caja");
+        // Aquí declaramos nuestros objetos y los añadimos.
         this.add (this.model);
     }
 
