@@ -1,8 +1,6 @@
 import * as THREE from '../libs/three.module.js'
-import * as CSG from '../libs/CSG-v2.js'
-import { jarron } from '../jarron/jarron.js'
 
-class nombreobjeto extends THREE.Object3D {
+class revolucion extends THREE.Object3D {
     // Declarar variables aquí (diferenciar el objeto en partes).
     constructor(gui, titleGui) {
         super();
@@ -10,29 +8,40 @@ class nombreobjeto extends THREE.Object3D {
         // Crear la interfaz (puede o no hacer falta).
         this.createGUI(gui,titleGui);
 
-        // Construcción del Mesh de las partes (primero la geometría y el material.
+        // Añadir las partes al objeto con this.add(this.parte)
+        var latheMesh = this.createObjetoRev();
+        this.add(latheMesh);
+
+        // Las geometrías se crean centradas en el origen.
+        // Crear las geometrías y ajustar sus posiciones dependiendo de dónde queramos que se vean.
+    }
+
+    // Métodos (por ejemplo createParte())
+
+    createObjetoRev() {
+        // Construcción del Mesh de las partes (primero la geometría y el material).
         // Para hacer la revolución, primero creamos la línea a revolucionar.
         var points = [];
         var mat = new THREE.MeshPhysicalMaterial({color: 0xcd853f})
 
-        points.push(new THREE.Vector3(3, 3, 0));
+        // Puntos de la línea a revolucionar.
+        points.push(new THREE.Vector3(3, 3, 0),
+            new THREE.Vector3(2, 2, 1),
+            new THREE.Vector3(1, 1, 2));
 
-        var lathe = new THREE.Mesh(
-            new THREE.LatheGeometry(points, mat));
+        // Esta es la geometría de la revolución (segundo parámetro para ajustar los segmentos).
+        var latheGeom = new THREE.LatheGeometry(points, 100);
 
+        // Este es el mesh del objeto por revolución.
+        // Esto es solo para crear una línea visible (una sola iteración de la revolución).
+        /*
         var lineGeometry = new THREE.BufferGeometry();
         lineGeometry.setFromPoints(points);
         var line = new THREE.Line(lineGeometry, mat);
+        */
 
-        // Añadir las partes al objeto con this.add(this.parte)
-
-
-        // Las geometrías se crean centradas en el origen.
-        // Crear las geometrías y ajustar sus posiciones dependiendo de dónde queramos que se vean.
-
+        return new THREE.Mesh(latheGeom, mat);
     }
-
-    // Métodos (por ejemplo createParte())
 
     createGUI(gui,titleGui) {
         // Controles para el tamaño, la orientación y la posición de la caja
@@ -130,8 +139,8 @@ class nombreobjeto extends THREE.Object3D {
         // Después, la rotación en Y
         // Luego, la rotación en X
         // Y por último la traslación
-
+        this.rotation.set(0, 1, 0);
     }
 }
 
-export { nombreobjeto };
+export { revolucion };

@@ -2,12 +2,13 @@
 // Clases de la biblioteca
 
 import * as THREE from '../libs/three.module.js'
-import { GUI } from '../libs/dat.gui.module.js'
+import {gui, GUI} from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
 import { Stats } from '../libs/stats.module.js'
 
 // Clases de mi proyecto (imports de las figuras)
 
+import { revolucion } from "./revolucion.js";
 
 /// La clase fachada del modelo
 /**
@@ -47,6 +48,7 @@ class MyScene extends THREE.Scene {
         // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a
         // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
         // Aquí declaramos nuestros objetos y los añadimos.
+        this.model = new revolucion(this.gui, "Objeto por revolución");
         this.add (this.model);
     }
 
