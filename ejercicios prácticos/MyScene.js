@@ -9,6 +9,8 @@ import { Stats } from '../libs/stats.module.js'
 // Clases de mi proyecto (imports de las figuras)
 
 import { revolucion } from "./revolucion.js";
+import { barrido } from "./barrido.js";
+import { barridoPath } from "./barridoPath.js";
 
 /// La clase fachada del modelo
 /**
@@ -48,7 +50,8 @@ class MyScene extends THREE.Scene {
         // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a
         // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
         // Aquí declaramos nuestros objetos y los añadimos.
-        this.model = new revolucion(this.gui, "Objeto por revolución");
+        //this.model = new revolucion(this.gui, "Objeto por revolución");
+        this.model = new barridoPath(this.gui, "Objeto por barrido");
         this.add (this.model);
     }
 

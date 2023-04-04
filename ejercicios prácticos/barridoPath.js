@@ -1,7 +1,6 @@
 import * as THREE from '../libs/three.module.js'
-import * as CSG from '../libs/CSG-v2.js'
 
-class nombreobjeto extends THREE.Object3D {
+class barridoPath extends THREE.Object3D {
     // Declarar variables aquí (diferenciar el objeto en partes).
     constructor(gui, titleGui) {
         super();
@@ -9,11 +8,8 @@ class nombreobjeto extends THREE.Object3D {
         // Crear la interfaz (puede o no hacer falta).
         this.createGUI(gui,titleGui);
 
-        // Construcción del Mesh de las partes.
-
-
         // Añadir las partes al objeto con this.add(this.parte)
-
+        this.add(this.createExtrude());
 
         // Las geometrías se crean centradas en el origen.
         // Crear las geometrías y ajustar sus posiciones dependiendo de dónde queramos que se vean.
@@ -21,6 +17,50 @@ class nombreobjeto extends THREE.Object3D {
     }
 
     // Métodos (por ejemplo createParte())
+
+    createExtrude() {
+        // Construcción del Mesh de las partes.
+        // La base debe ser un shape.
+        const shape = this.createShape();
+
+        // Ahora crearemos la ruta que va a tomar la base (haciendo una curva suave).
+        const pathPoints = [
+            new THREE.Vector3(15, 30, -30),
+            new THREE.Vector3(30, 15, -15),
+            new THREE.Vector3(45, 30, 0),
+            new THREE.Vector3(30, 45, 15),
+            new THREE.Vector3(15, 60, 30)
+        ]
+
+        const extrudePath = new THREE.CatmullRomCurve3(pathPoints);
+        const options = {
+            depth: 8,                   // Cantidad de extrusión.
+            bevelEnabled: false,         // Añadido de bisel.
+            steps: 3,                   // Segmentos de la parte extruída.
+            curveSegments: 4,
+            extrudePath: extrudePath    // Por defecto el eje z.
+        };
+
+        const extrudeGeometry = new THREE.ExtrudeGeometry(shape, options)
+        return new THREE.Mesh(extrudeGeometry, new THREE.MeshDepthMaterial({color: 0x008000}));
+    }
+
+    createShape() {
+        // Construcción del Mesh de las partes.
+        // La base debe ser un shape.
+        const shape = new THREE.Shape();
+        shape.moveTo(5, 5);                        // Moverlo al x, y
+        shape.lineTo(10, 5);                        // Marcar una línea al x, y
+        shape.quadraticCurveTo(15, 5,  15, 10);     // Curva sobre el p primero hasta el p segundo.
+        shape.lineTo(15, 15);
+        shape.quadraticCurveTo(15, 20,  10, 20);
+        shape.lineTo(5, 20);
+        shape.quadraticCurveTo(0, 20,  0, 15);
+        shape.lineTo(0, 10);
+        shape.quadraticCurveTo(0, 5,  5, 5);
+
+        return shape;
+    }
 
     createGUI(gui,titleGui) {
         // Controles para el tamaño, la orientación y la posición de la caja
@@ -122,4 +162,4 @@ class nombreobjeto extends THREE.Object3D {
     }
 }
 
-export { nombreobjeto };
+export { barridoPath };

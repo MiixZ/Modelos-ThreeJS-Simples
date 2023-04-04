@@ -25,9 +25,13 @@ class revolucion extends THREE.Object3D {
         var mat = new THREE.MeshPhysicalMaterial({color: 0xcd853f})
 
         // Puntos de la línea a revolucionar.
-        points.push(new THREE.Vector3(3, 3, 0),
+        points.push(
+            new THREE.Vector3(3, 3, 0),
             new THREE.Vector3(2, 2, 1),
-            new THREE.Vector3(1, 1, 2));
+            new THREE.Vector3(1, 1, 2)
+        );
+
+        // Se puede extraer de un shape -> unShape.extractPoints(6).shape;
 
         // Esta es la geometría de la revolución (segundo parámetro para ajustar los segmentos).
         var latheGeom = new THREE.LatheGeometry(points, 100);
@@ -139,7 +143,7 @@ class revolucion extends THREE.Object3D {
         // Después, la rotación en Y
         // Luego, la rotación en X
         // Y por último la traslación
-        this.rotation.set(0, 1, 0);
+        this.rotation.set(0, this.rotation.y + 0.1, 0);
     }
 }
 
