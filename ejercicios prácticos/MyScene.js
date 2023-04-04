@@ -11,6 +11,7 @@ import { Stats } from '../libs/stats.module.js'
 import { revolucion } from "./revolucion.js";
 import { barrido } from "./barrido.js";
 import { barridoPath } from "./barridoPath.js";
+import { ObjetoCSG } from "./csg.js";
 
 /// La clase fachada del modelo
 /**
@@ -51,7 +52,7 @@ class MyScene extends THREE.Scene {
         // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
         // Aquí declaramos nuestros objetos y los añadimos.
         //this.model = new revolucion(this.gui, "Objeto por revolución");
-        this.model = new barridoPath(this.gui, "Objeto por barrido");
+        this.model = new ObjetoCSG(this.gui, "Objeto CSG");
         this.add (this.model);
     }
 

@@ -1,7 +1,7 @@
 import * as THREE from '../libs/three.module.js'
 import * as CSG from '../libs/CSG-v2.js'
 
-class nombreobjeto extends THREE.Object3D {
+class ObjetoCSG extends THREE.Object3D {
     // Declarar variables aquí (diferenciar el objeto en partes).
     constructor(gui, titleGui) {
         super();
@@ -13,7 +13,7 @@ class nombreobjeto extends THREE.Object3D {
 
 
         // Añadir las partes al objeto con this.add(this.parte)
-
+        this.add(this.createCSG());
 
         // Las geometrías se crean centradas en el origen.
         // Crear las geometrías y ajustar sus posiciones dependiendo de dónde queramos que se vean.
@@ -21,6 +21,48 @@ class nombreobjeto extends THREE.Object3D {
     }
 
     // Métodos (por ejemplo createParte())
+
+    createCSG() {
+        var csg = new CSG.CSG();
+
+        var baseDonut = this.createBaseDonut();
+        baseDonut.rotation.set(Math.PI/2, 0, 0);
+
+        var agujeroGeom = new THREE.CylinderGeometry(2.5, 2.5, 20, 10, 10, false);
+        agujeroGeom.translate(2.5, 0, 7.5);
+        var agujeroDonut = new THREE.Mesh(agujeroGeom, new THREE.MeshBasicMaterial({color: 0x000000}));
+
+        csg.subtract([baseDonut, agujeroDonut]);
+
+        return csg.toMesh();
+    }
+
+    createBaseDonut() {
+        const shape = new THREE.Shape();
+        shape.moveTo(0.1, 0.1);                        // Moverlo al x, y
+        shape.lineTo(5, 0);                        // Marcar una línea al x, y
+        shape.quadraticCurveTo(10, 0,  10, 5);     // Curva sobre el p primero hasta el p segundo.
+        shape.lineTo(10, 10);
+        shape.quadraticCurveTo(10, 15,  5, 15);
+        shape.lineTo(0, 15);
+        shape.quadraticCurveTo(-5, 15,  -5, 10);
+        shape.lineTo(-5, 5);
+        shape.quadraticCurveTo(-5, 0,  0.1, 0.1);
+        // Ahora crearemos la ruta que va a tomar la base (haciendo una curva suave).
+        const options = {
+            depth: 3,                   // Cantidad de extrusión.
+            bevelEnabled: true,         // Añadido de bisel.
+            steps: 3,                   // Segmentos de la parte extruída.
+            curveSegments: 4,
+            bevelThickness: 4,
+            bevelSize: 2,
+            bevelSegments: 2,
+            //extrudePath: extrudePath    // Por defecto el eje z.
+        };
+
+        const extrudeGeometry = new THREE.ExtrudeGeometry(shape, options)
+        return new THREE.Mesh(extrudeGeometry, new THREE.MeshBasicMaterial({color: 0xaa23aa}));
+    }
 
     createGUI(gui,titleGui) {
         // Controles para el tamaño, la orientación y la posición de la caja
@@ -122,4 +164,4 @@ class nombreobjeto extends THREE.Object3D {
     }
 }
 
-export { nombreobjeto };
+export { ObjetoCSG };
