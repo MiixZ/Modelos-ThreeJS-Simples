@@ -12,6 +12,7 @@ import { revolucion } from "./revolucion.js";
 import { barrido } from "./barrido.js";
 import { barridoPath } from "./barridoPath.js";
 import { ObjetoCSG } from "./csg.js";
+import { pendulo1 } from "./pendulo.js";
 
 /// La clase fachada del modelo
 /**
@@ -41,7 +42,7 @@ class MyScene extends THREE.Scene {
         this.createCamera ();
 
         // Un suelo
-        this.createGround ();
+        //this.createGround ();
 
         // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas.
         this.axis = new THREE.AxesHelper (5);
@@ -52,7 +53,7 @@ class MyScene extends THREE.Scene {
         // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
         // Aquí declaramos nuestros objetos y los añadimos.
         //this.model = new revolucion(this.gui, "Objeto por revolución");
-        this.model = new ObjetoCSG(this.gui, "Objeto CSG");
+        this.model = new pendulo1(this.gui, "Péndulos");
         this.add (this.model);
     }
 
