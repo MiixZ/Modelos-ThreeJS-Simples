@@ -13,6 +13,7 @@ import { barrido } from "./barrido.js";
 import { barridoPath } from "./barridoPath.js";
 import { ObjetoCSG } from "./csg.js";
 import { pendulo1 } from "./pendulo.js";
+import { reloj } from "./reloj.js"
 
 /// La clase fachada del modelo
 /**
@@ -53,7 +54,7 @@ class MyScene extends THREE.Scene {
         // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
         // Aquí declaramos nuestros objetos y los añadimos.
         //this.model = new revolucion(this.gui, "Objeto por revolución");
-        this.model = new pendulo1(this.gui, "Péndulos");
+        this.model = new reloj(this.gui, "Reloj");
         this.add (this.model);
     }
 
